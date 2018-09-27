@@ -284,7 +284,8 @@ class Potential(object):
             if len(self.multipoles.keys()) > 0:
                 sm = "@MULTIPOLES\n"
                 for order in self.multipoles.keys():
-                    sm += "ORDER {0}\n{1}\n".format(order, self.nsites)
+                    n_moments = len(self.multipoles[order])
+                    sm += "ORDER {0}\n{1}\n".format(order, n_moments)
                     for i, m in enumerate(self.multipoles[order]):
                         sm += "{0:3d}".format(i + 1)
                         for v in m:
@@ -301,10 +302,10 @@ class Potential(object):
 
             se = "EXCLISTS\n{0:d} {1:d}\n".format(self.nsites, len(self.exclusion_list[0]) + 1)
             for i in self.exclusion_list.keys():
-                se += "{0:>5d}".format(i + 1)
+                se += "{0:>7d}".format(i + 1)
                 excl = self.exclusion_list[i] + 1
                 for v in excl:
-                    se += "{0:5d}".format(v)
+                    se += "{0:7d}".format(v)
                 se += "\n"
 
         return sc + sm + sp + se[:-1]
